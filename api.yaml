@@ -1,0 +1,60 @@
+openapi: 3.0.3
+info:
+  title: Pet Store API
+  version: 1.0.0
+  description: API for managing pets
+
+paths:
+  /pets:
+    get:
+      summary: Get list of pets
+      operationId: getPets
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+
+components:
+  schemas:
+    Pet:
+      type: object
+      required:
+        - name
+        - age
+      properties:
+        name:
+          type: string
+        age:
+          type: integer
+      discriminator:
+        propertyName: petType
+        mapping:
+          dog: '#/components/schemas/Dog'
+          cat: '#/components/schemas/Cat'
+    
+    Dog:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          required:
+            - breed
+          properties:
+            breed:
+              type: string
+    
+    Cat:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          required:
+            - color
+          properties:
+            color:
+              type: string

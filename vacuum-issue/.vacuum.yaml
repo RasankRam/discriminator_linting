@@ -1,0 +1,4 @@
+ruleset: recommended
+severity: warn
+format: pretty
+details: true
